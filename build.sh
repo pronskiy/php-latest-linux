@@ -3,7 +3,7 @@
 set -e
 
 # initial cleanup
-rm -rf bundle && rm -f php73-${VERSION}.tar.gz
+rm -rf bundle && rm -f php74-${VERSION}.tar.gz
 
 # create bundle
 mkdir bundle && cd bundle
@@ -25,7 +25,7 @@ libkeyutils=$(ldd `which php` | grep '=>' | grep libkeyutils.so | grep -oP '/.*(
 if [ -n "${libkeyutils}" ]; then
     cp ${libkeyutils} usr/lib/x86_64-linux-gnu
 fi
-libidn=$(ldd `which php` | grep '=>' | grep libidn.so | grep -oP '/.*(?= )')
+libidn=$(ldd `which php` | grep '=>' | grep "libidn" | grep -oP '/.*(?= )')
 if [ -n "${libidn}" ]; then
     cp ${libidn} usr/lib/x86_64-linux-gnu
 fi
@@ -53,7 +53,7 @@ cp -d --parents /usr/local/bin/phar .
 cp --parents /usr/local/bin/phar.phar .
 
 # build archive
-tar czf ../php73-${VERSION}.tar.gz .
+tar czf ../php74-${VERSION}.tar.gz .
 
 # restore configuration files
 sed -i -e "s#^zend_extension=\$(pwd)#zend_extension=$(pwd)#g" usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
